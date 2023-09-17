@@ -9,17 +9,15 @@
 {% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
 
 {% block content %}
-<form class="form">
+<form class="form" action="./operacion_exitosa.html">
     <div class="form__field">
-        <label class="form__label" for="txtNIP">
-            Monto a retirar</label>
+        <label class="form__label" for="txtMonto">Monto a retirar</label>
         <input
             class="form__input"
             type="text"
-            name="txtNIP"
-            id="txtNIP"
-            maxlength="4"
-            pattern="\d*"
+            name="txtMonto"
+            id="txtMonto"
+            pattern="\d*.\d*"
             placeholder="Ingresa monto a retirar"
             required
         />
