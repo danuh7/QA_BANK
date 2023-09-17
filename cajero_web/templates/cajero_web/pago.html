@@ -1,0 +1,58 @@
+{% extends "./base.html" %}
+{% load static %} 
+
+{% block title %}Pago de Servicios{% endblock title%}
+
+{% block header %}
+  <h1>Paga tus<span class="text-bold">Servicios</span></h1>
+{% endblock header %}
+
+{% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
+
+{% block content %}
+<div class="servicios">
+    <div class="servicios__item">
+      <img src="../img/cfe_logo.png" alt="Logo de CFE" />
+    </div>
+    <div class="servicios__item">
+      <img src="../img/sky_logo.png" alt="Logo de SKY" />
+    </div>
+    <div class="servicios__item">
+      <img src="../img/telmex_logo.png" alt="Logo de Telmex" />
+    </div>
+  </div>
+
+  <form class="form" action="./operacion_exitosa.html">
+    <div class="form__field">
+      <label class="form__label" for="txtServicio"
+        >Numero de cuenta o teléfono</label
+      >
+      <input
+        class="form__input"
+        type="text"
+        name="txtServicio"
+        id="txtServicio"
+        maxlength="16"
+        pattern="\d*"
+        placeholder="Ingresa numero de cuenta o teléfono"
+        required
+      />
+    </div>
+    <div class="form__field">
+      <label for="txtMonto" class="form__label">Monto a pagar</label>
+      <input
+        class="form__input"
+        type="text"
+        name="txtMonto"
+        id="txtMonto"
+        pattern="\d*.\d*"
+        placeholder="Ingresa el monto a pagar"
+        required
+      />
+    </div>
+    <div class="form__buttons">
+      <a href="../index.html" class="button button--cancel">Cancelar</a>
+      <button type="submit" class="button">Pagar</button>
+    </div>
+  </form>
+{% endblock content %}
