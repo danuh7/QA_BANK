@@ -82,6 +82,9 @@ migrations/
 *.py[cod]
 *$py.class
 
+# Visual Studio Code
+.vscode/
+
 # C extensions
 *.so
 

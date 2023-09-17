@@ -1,0 +1,49 @@
+{% extends "./base.html" %}
+{% load static %} 
+
+{% block title %}PractiESCOM{% endblock %}
+
+{% block header %}
+  <h1>Practi<span class="text-bold">ESCOM</h1>
+  <p>Hola, ¿en qué podemos ayudarte?</p>
+{% endblock %}
+
+{% block content %}
+  <div class="buttons">
+    <a class="button button--large" href="{% url "index" %}">
+      <div class="option">
+        <p>Transferencias</p>
+      </div>
+    </a>
+    <a class="button button--large" href="{% url "index" %}">
+      <div class="option">
+        <p>Retiro en efectivo</p>
+      </div>
+    </a>
+    <a class="button button--large" href="{% url "index" %}">
+      <div class="option">
+        <p>Actualización de NIP</p>
+      </div>
+    </a>
+  </div>
+  <div class="imagen-fondo">
+    <img src="{% static "img/mobile.svg" %}" alt="Seguridad móvil con PractiESCOM" />
+  </div>
+  <div class="buttons">
+    <a class="button button--large" href="{% url "index" %}">
+      <div class="option">
+        <p>Depósitos</p>
+      </div>
+    </a>
+    <a class="button button--large" href="{% url "index" %}">
+      <div class="option">
+        <p>Pagos a servicios</p>
+      </div>
+    </a>
+    <a class="button button--large" href="{% url "index" %}">
+      <div class="option">
+        <p>Consulta de saldo</p>
+      </div>
+    </a>
+  </div>
+{% endblock content %}
