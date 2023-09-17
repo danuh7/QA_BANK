@@ -1,16 +1,30 @@
-{% extends "./base.html" %} 
+{% extends "./base.html" %}
 
-
-{% block title %}Actualiza tu NIP{% endblock title%} 
+{% block title %}Validar cuenta{% endblock title %}
 
 {% block header %}
-  <h1>Actualiza tu <span class="text-bold">NIP</span></h1>
+  <h1>Valida tu <span class="text-bold">Cuenta</span>
 {% endblock header %}
 
 {% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
 
 {% block content %}
   <form class="form">
+    <div class="form__field">
+      <label class="form__label" for="txtCuenta"
+        >Numero de cuenta</label
+      >
+      <input
+        class="form__input"
+        type="text"
+        name="txtCuenta"
+        id="txtCuenta"
+        maxlength="16"
+        pattern="\d*"
+        placeholder="Ingresa tu número de cuenta"
+        required
+      />
+    </div>
     <div class="form__field">
       <label class="form__label" for="txtNIP"
         >Nuevo NIP</label
