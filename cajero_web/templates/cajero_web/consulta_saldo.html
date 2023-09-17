@@ -1,0 +1,21 @@
+{% extends "./base.html" %}
+
+{% block title %}Consulta saldo{% endblock title %}
+
+{% block header %}
+    <h1>Consultar<span class="text-bold"> Saldo</span></h1>
+{% endblock header %}
+
+{% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
+
+{% block content %}
+<form class="form">
+    <h1>
+        Tu saldo actual es:<span class="text-bold"> $XXXX<sup>00</sup></span>
+    </h1>
+    <div class="form__buttons">
+        <a href="../index.html" class="button button--cancel">Cancelar</a>
+        <button type="submit" class="button">Confirmar</button>
+    </div>
+</form>
+{% endblock content %}

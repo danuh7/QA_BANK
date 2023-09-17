@@ -13,3 +13,9 @@ def validar_cuenta(request):
 
 def pago(request):
     return render(request, "cajero_web/pago.html")
+
+def consulta_saldo(request):
+    return render(request, "cajero_web/consulta_saldo.html")
+
+def retiros(request):
+    return render(request, "cajero_web/retiros.html")
