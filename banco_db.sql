@@ -20,6 +20,9 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `banco_db`
 --
+DROP DATABASE IF EXISTS `banco_db`;
+CREATE DATABASE `banco_db`;
+USE `banco_db`;
 
 -- --------------------------------------------------------
 
@@ -138,8 +141,8 @@ INSERT INTO `forma_pago` (`id_forma`, `nombre`) VALUES
 
 CREATE TABLE `operacion` (
   `id_operacion` smallint(10) NOT NULL,
-  `fecha` date DEFAULT curdate(),
-  `hora` time DEFAULT curtime(),
+  `fecha` date DEFAULT (curdate()),
+  `hora` time DEFAULT (curtime()),
   `monto` double NOT NULL,
   `id_tipo_operacion` smallint(6) DEFAULT NULL,
   `id_destino` smallint(6) DEFAULT NULL,
