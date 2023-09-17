@@ -1,0 +1,34 @@
+{% extends "./base.html" %}
+
+{% block title %}Operación exitosa{% endblock %}
+
+{% block header %}
+	<h1>Operación <span class="text-bold">exitosa</span></h1>
+{% endblock %}
+
+{% block menuvariant %}main-content--no-menu container{% endblock %}
+
+{% block content %}
+	<div class="ticket">
+        <h2 class="ticket__heading">
+          Practi<span class="text-bold">ESCOM</span>
+        </h2>
+        <siv class="ticket__details">
+          <p class="ticket__item">Fecha: <span>XX/XX/XX</span></p>
+          <p class="ticket__item">Hora: <span>XX:XX</span></p>
+          <p class="ticket__item">Monto: <span>XXXX.XX</span></p>
+          <p class="ticket__item">Tipo de Operación: <span>XXXXX</span></p>
+          <p class="ticket__item">
+            Cuenta origen: <span>XXXXXXXXXXXXXXX</span>
+          </p>
+          <p class="ticket__item">
+            Cuenta destino: <span>XXXXXXXXXXXXXXX</span>
+          </p>
+        </siv>
+        <p class="ticket__footer">
+          Cualquier aclaración, acudea tu sucursal o llama a tu línea de
+          atención correspondiente
+        </p>
+      </div>
+    </main>
+{% endblock %}

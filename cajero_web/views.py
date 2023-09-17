@@ -11,5 +11,7 @@ def actualizar_nip(request):
 def validar_cuenta(request):
     return render(request, "cajero_web/validar-cuenta.html")
 
-def pago(request):
-    return render(request, "cajero_web/pago.html")
+def realizar_pago(request):
+    return render(request, "cajero_web/realizar-pago.html")
+def operacion_exitosa(request):
+    return render(request, "cajero_web/operacion-exitosa.html")
