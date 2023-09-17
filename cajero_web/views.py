@@ -21,3 +21,11 @@ def realizar_pago(request):
 
 def operacion_exitosa(request):
     return render(request, "cajero_web/operacion-exitosa.html")
+
+
+def consultar_saldo(request):
+    return render(request, "cajero_web/consultar-saldo.html")
+
+
+def retirar_saldo(request):
+    return render(request, "cajero_web/retirar-saldo.html")
