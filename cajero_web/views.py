@@ -10,3 +10,6 @@ def actualizar_nip(request):
 
 def validar_cuenta(request):
     return render(request, "cajero_web/validar-cuenta.html")
+
+def pago(request):
+    return render(request, "cajero_web/pago.html")
