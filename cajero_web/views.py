@@ -11,7 +11,34 @@ def index(request):
 
 
 def actualizar_nip(request):
-    return render(request, "cajero_web/actualizar-nip.html")
+    if request.POST:
+        numero_cuenta = request.POST["txtCuenta"]
+        nvo_nip = request.POST["txtNIP"]
+
+        try:
+            cuenta = Cuenta.objects.get(numero_cuenta=numero_cuenta)
+            if nvo_nip == cuenta.nip:
+                raise Exception("Tu nuevo nip no puede ser igual que el anterior.")
+
+            cuenta.nip = nvo_nip
+            cuenta.save()
+
+            fecha_hora = datetime.now()
+            operacion = Operacion(
+                fecha=str(fecha_hora.date()),
+                hora=str(fecha_hora.time())[:8],
+                monto=0,
+                id_origen=cuenta,
+                id_tipo_operacion=TipoOperacion.objects.get(id_tipo=4)
+            )
+            operacion.save()
+            return redirect('operacion-exitosa', operacion_id=operacion.id_operacion)
+        except Exception as ex:
+            return render(request, "cajero_web/actualizar-nip.html",{
+                "error": str(ex)
+            })
+    else:
+        return render(request, "cajero_web/actualizar-nip.html")
 
 
 def validar_cuenta(request):
