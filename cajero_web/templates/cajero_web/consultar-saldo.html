@@ -9,10 +9,11 @@
 {% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
 
 {% block content %}
-<form class="form">
-    <h1>
-        Tu saldo actual es:<span class="text-bold"> $XXXX<sup>00</sup></span>
-    </h1>
+<form class="form" method="post">
+    {% csrf_token %}
+    <h2>
+        Tu saldo actual es:<span class="text-bold"> ${{ saldo }}<sup>MXN</sup></span>
+    </h2>
     <div class="form__buttons">
         <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
         <button type="submit" class="button">Confirmar</button>

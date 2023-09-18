@@ -21,9 +21,7 @@
             <p class="ticket__item">
                 Cuenta origen: <span>{{ cuenta_origen }}</span>
             </p>
-            <p class="ticket__item">
-                Cuenta destino: <span>{{ cuenta_destino }}</span>
-            </p>
+            <p class="ticket__item">Cuenta destino: <span>{{ cuenta_destino }}</span></p>
         </div>
         <p class="ticket__footer">
             Cualquier aclaración, acudea tu sucursal o llama a tu línea de
@@ -35,7 +33,7 @@
 {% block script %}
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => window.location.replace('/'), 3000)
+            setTimeout(() => window.location.replace('{% url "index" %}'), 10000)
         })
     </script>
 {% endblock %}

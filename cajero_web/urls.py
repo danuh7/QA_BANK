@@ -8,6 +8,6 @@ urlpatterns = [
     re_path(r'^validar-cuenta/(?P<view>\w)/$', views.validar_cuenta),
     path('realizar-pago/', views.realizar_pago, name='realizar-pago'),
     path('operacion-exitosa/<int:operacion_id>', views.operacion_exitosa, name='operacion-exitosa'),
-    path('consultar-saldo/', views.consultar_saldo, name="consultar-saldo"),
-    path('retirar-saldo/<int:cuenta_id>', views.retirar_saldo, name="retirar-saldo")
+    path('consultar-saldo/<int:cuenta_id>/', views.consultar_saldo, name="consultar-saldo"),
+    path('retirar-saldo/<int:cuenta_id>/', views.retirar_saldo, name="retirar-saldo")
 ]

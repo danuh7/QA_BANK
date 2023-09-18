@@ -56,8 +56,25 @@ def operacion_exitosa(request, operacion_id):
     })
 
 
-def consultar_saldo(request):
-    return render(request, "cajero_web/consultar-saldo.html")
+def consultar_saldo(request, cuenta_id):
+    cuenta = get_object_or_404(Cuenta, pk=cuenta_id)
+    saldo = cuenta.monto
+
+    if request.POST:
+        fecha_hora = datetime.now()
+        operacion = Operacion(
+            fecha=str(fecha_hora.date()),
+            hora=str(fecha_hora.time())[:8],
+            monto=saldo,
+            id_origen=cuenta,
+            id_tipo_operacion=TipoOperacion.objects.get(id_tipo=3)
+        )
+        operacion.save()
+        return redirect('operacion-exitosa', operacion_id=operacion.id_operacion)
+    else:
+        return render(request, "cajero_web/consultar-saldo.html", {
+            "saldo": saldo
+        })
 
 
 def retirar_saldo(request, cuenta_id):
