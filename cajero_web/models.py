@@ -15,6 +15,9 @@ class Banco(models.Model):
     id_banco = models.SmallAutoField(primary_key=True)
     nombre = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         managed = False
         db_table = 'banco'
@@ -23,7 +26,7 @@ class Banco(models.Model):
 class Cliente(models.Model):
     id_cliente = models.SmallAutoField(primary_key=True)
     primer_nombre = models.CharField(max_length=15)
-    segundo_nombre = models.CharField(max_length=15)
+    segundo_nombre = models.CharField(max_length=15, blank=True)
     apellido_paterno = models.CharField(max_length=15)
     apellido_materno = models.CharField(max_length=15)
 
