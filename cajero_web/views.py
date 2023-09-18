@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Operacion, Cuenta
+from .models import Operacion, Cuenta, TipoOperacion
 
 
 # Create your views here.
@@ -23,7 +24,7 @@ def validar_cuenta(request):
         try:
             cuenta = Cuenta.objects.all().get(numero_cuenta=numero_cuenta)
             if nip == cuenta.nip:
-                return redirect(next_page)
+                return redirect(next_page, cuenta_id=cuenta.id_cuenta)
             else:
                 return render(request, "cajero_web/validar-cuenta.html", {
                     "error": "El NIP ingresado es incorrecto. Intente nuevamente"
@@ -33,12 +34,9 @@ def validar_cuenta(request):
                 "error": "El número de cuenta no existe o es incorrecto. Intente nuevamente."
             })
     else:
-        if next_page is None:
-            next_page = ''
-
         return render(request, "cajero_web/validar-cuenta.html", {
-            "next_page": next_page,
-            "error": None
+            "next_page": '/' if next_page is None else next_page,
+            "error": "Error: No hay punto de redirección" if next_page is None else None,
         })
 
 
@@ -62,5 +60,36 @@ def consultar_saldo(request):
     return render(request, "cajero_web/consultar-saldo.html")
 
 
-def retirar_saldo(request):
-    return render(request, "cajero_web/retirar-saldo.html")
+def retirar_saldo(request, cuenta_id):
+    if request.POST:
+        monto = float(request.POST["txtMonto"])
+        try:
+            if monto > 0:
+                cuenta = get_object_or_404(Cuenta, pk=cuenta_id)
+                if cuenta.monto >= monto:
+                    fecha_hora = datetime.now()
+                    operacion = Operacion(
+                        fecha=str(fecha_hora.date()),
+                        hora=str(fecha_hora.time())[:8],
+                        monto=request.POST["txtMonto"],
+                        id_origen=cuenta,
+                        id_tipo_operacion=TipoOperacion.objects.get(id_tipo=2)
+                    )
+                    cuenta.monto -= monto
+                    cuenta.save()
+                    operacion.save()
+                    print(Operacion.objects.all())
+                    return redirect("operacion-exitosa", operacion_id=operacion.id_operacion)
+                else:
+                    raise Exception("No tienes saldo suficiente")
+            else:
+                raise Exception("El monto debe ser mayor a cero.")
+        except Exception as ex:
+            return render(request, "cajero_web/retirar-saldo.html", {
+                "cuenta": cuenta_id,
+                "error": str(ex)
+            })
+    else:
+        return render(request, "cajero_web/retirar-saldo.html", {
+            "cuenta": cuenta_id,
+        })

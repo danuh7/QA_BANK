@@ -31,3 +31,11 @@
         </p>
     </div>
 {% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => window.location.replace('/'), 3000)
+        })
+    </script>
+{% endblock %}

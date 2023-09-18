@@ -32,7 +32,6 @@ class Cliente(models.Model):
 
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.primer_nombre}"
-    
 
     class Meta:
         managed = False
@@ -50,7 +49,9 @@ class Cuenta(models.Model):
 
     def __str__(self):
         return str(self.id_cliente)
-    
+
+    def tiene_saldo(self, monto_a_descontar):
+        return self.monto >= monto_a_descontar
 
     class Meta:
         managed = False
@@ -63,7 +64,6 @@ class FormaPago(models.Model):
 
     def __str__(self):
         return self.nombre
-    
 
     class Meta:
         managed = False
@@ -76,9 +76,40 @@ class Operacion(models.Model):
     hora = models.TimeField(blank=True, null=True)
     monto = models.FloatField()
     id_tipo_operacion = models.ForeignKey('TipoOperacion', models.DO_NOTHING, db_column='id_tipo_operacion')
-    id_destino = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='id_destino')
-    id_forma = models.ForeignKey(FormaPago, models.DO_NOTHING, db_column='id_forma')
-    id_origen = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='id_origen', related_name='operacion_id_origen_set')
+    id_destino = models.ForeignKey(
+        Cuenta,
+        models.DO_NOTHING,
+        db_column='id_destino',
+        blank=True,
+        null=True,
+    )
+    id_forma = models.ForeignKey(
+        FormaPago,
+        models.DO_NOTHING,
+        db_column='id_forma',
+        blank=True,
+        null=True,
+    )
+    id_origen = models.ForeignKey(
+        Cuenta,
+        models.DO_NOTHING,
+        db_column='id_origen',
+        related_name='operacion_id_origen_set'
+    )
+
+    def realizar_operacion(self, nuevo_nip=''):
+        tipo_operacion = self.id_tipo_operacion
+
+        if tipo_operacion in [1, 2, 3]:
+            if self.id_origen.tiene_saldo(self.monto):
+                self.id_origen.monto -= self.monto
+                self.id_origen.save()
+            else:
+                raise Exception("No tienes saldo suficiente")
+        elif tipo_operacion == 4:
+            self.nip = nuevo_nip
+
+        self.save()
 
     class Meta:
         managed = False
@@ -107,4 +138,3 @@ class TipoOperacion(models.Model):
     class Meta:
         managed = False
         db_table = 'tipo_operacion'
-
