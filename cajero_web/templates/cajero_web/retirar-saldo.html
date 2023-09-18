@@ -9,7 +9,7 @@
 {% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
 
 {% block content %}
-    <form class="form" method="post" action="{% url "operacion-exitosa" %}">
+    <form class="form" method="post">
         {% csrf_token %}
         <div class="form__field">
             <label class="form__label" for="txtMonto">Monto a retirar</label>

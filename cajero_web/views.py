@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Operacion
+from django.shortcuts import render, get_object_or_404, redirect
+from django.core.exceptions import ObjectDoesNotExist
+from .models import Operacion, Cuenta
 
 
 # Create your views here.
@@ -15,12 +16,30 @@ def actualizar_nip(request):
 def validar_cuenta(request):
     next_page = request.GET.get('redirect')
 
-    if next_page == None:
-        next_page = ''
+    if request.POST:
+        numero_cuenta = request.POST["txtCuenta"]
+        nip = request.POST["txtNIP"]
 
-    return render(request, "cajero_web/validar-cuenta.html", {
-        "next_page": next_page,
-    })
+        try:
+            cuenta = Cuenta.objects.all().get(numero_cuenta=numero_cuenta)
+            if nip == cuenta.nip:
+                return redirect(next_page)
+            else:
+                return render(request, "cajero_web/validar-cuenta.html", {
+                    "error": "El NIP ingresado es incorrecto. Intente nuevamente"
+                })
+        except ObjectDoesNotExist:
+            return render(request, "cajero_web/validar-cuenta.html", {
+                "error": "El número de cuenta no existe o es incorrecto. Intente nuevamente."
+            })
+    else:
+        if next_page is None:
+            next_page = ''
+
+        return render(request, "cajero_web/validar-cuenta.html", {
+            "next_page": next_page,
+            "error": None
+        })
 
 
 def realizar_pago(request):
