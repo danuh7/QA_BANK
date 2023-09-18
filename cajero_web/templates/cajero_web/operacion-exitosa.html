@@ -1,33 +1,33 @@
-{% extends "./base.html" %}
+{% extends "cajero_web/base.html" %}
 
 {% block title %}Operación exitosa{% endblock %}
 
 {% block header %}
-	<h1>Operación <span class="text-bold">exitosa</span></h1>
+    <h1>Operación <span class="text-bold">exitosa</span></h1>
 {% endblock %}
 
 {% block menuvariant %}main-content--no-menu container{% endblock %}
 
 {% block content %}
-	<div class="ticket">
+    <div class="ticket">
         <h2 class="ticket__heading">
-          Practi<span class="text-bold">ESCOM</span>
+            Practi<span class="text-bold">ESCOM</span>
         </h2>
         <div class="ticket__details">
-          <p class="ticket__item">Fecha: <span>XX/XX/XX</span></p>
-          <p class="ticket__item">Hora: <span>XX:XX</span></p>
-          <p class="ticket__item">Monto: <span>XXXX.XX</span></p>
-          <p class="ticket__item">Tipo de Operación: <span>XXXXX</span></p>
-          <p class="ticket__item">
-            Cuenta origen: <span>XXXXXXXXXXXXXXX</span>
-          </p>
-          <p class="ticket__item">
-            Cuenta destino: <span>XXXXXXXXXXXXXXX</span>
-          </p>
+            <p class="ticket__item">Fecha: <span>{{ fecha }}</span></p>
+            <p class="ticket__item">Hora: <span>{{ hora }}</span></p>
+            <p class="ticket__item">Monto: <span>{{ monto }}</span></p>
+            <p class="ticket__item">Tipo de Operación: <span>{{ tipo_operacion }}</span></p>
+            <p class="ticket__item">
+                Cuenta origen: <span>{{ cuenta_origen }}</span>
+            </p>
+            <p class="ticket__item">
+                Cuenta destino: <span>{{ cuenta_destino }}</span>
+            </p>
         </div>
         <p class="ticket__footer">
-          Cualquier aclaración, acudea tu sucursal o llama a tu línea de
-          atención correspondiente
+            Cualquier aclaración, acudea tu sucursal o llama a tu línea de
+            atención correspondiente
         </p>
-      </div>
+    </div>
 {% endblock %}

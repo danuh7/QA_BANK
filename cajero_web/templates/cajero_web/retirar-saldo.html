@@ -1,6 +1,6 @@
-{% extends "./base.html" %}
+{% extends "cajero_web/base.html" %}
 
-{% block  title %}Retiro{% endblock  %}
+{% block  title %}Retiro{% endblock %}
 
 {% block header %}
     <h1>Haz un <span class="text-bold">Retiro</span></h1>
@@ -9,22 +9,23 @@
 {% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
 
 {% block content %}
-<form class="form" action="./operacion_exitosa.html">
-    <div class="form__field">
-        <label class="form__label" for="txtMonto">Monto a retirar</label>
-        <input
-            class="form__input"
-            type="text"
-            name="txtMonto"
-            id="txtMonto"
-            pattern="\d*.\d*"
-            placeholder="Ingresa monto a retirar"
-            required
-        />
-    </div>
-    <div class="form__buttons">
-        <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
-        <button type="submit" class="button">Confirmar</button>
-    </div>
-</form>
+    <form class="form" method="post" action="{% url "operacion-exitosa" %}">
+        {% csrf_token %}
+        <div class="form__field">
+            <label class="form__label" for="txtMonto">Monto a retirar</label>
+            <input
+                    class="form__input"
+                    type="text"
+                    name="txtMonto"
+                    id="txtMonto"
+                    pattern="\d*.\d*"
+                    placeholder="Ingresa monto a retirar"
+                    required
+            />
+        </div>
+        <div class="form__buttons">
+            <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
+            <button type="submit" class="button">Confirmar</button>
+        </div>
+    </form>
 {% endblock content %}

@@ -1,34 +1,34 @@
-{% extends "./base.html" %} 
+{% extends "cajero_web/base.html" %}
 
 
-{% block title %}Actualiza tu NIP{% endblock title%} 
+{% block title %}Actualiza tu NIP{% endblock title %}
 
 {% block header %}
-  <h1>Actualiza tu <span class="text-bold">NIP</span></h1>
+    <h1>Actualiza tu <span class="text-bold">NIP</span></h1>
 {% endblock header %}
 
 {% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
 
 {% block content %}
-  <form class="form">
-    <div class="form__field">
-      <label class="form__label" for="txtNIP"
-        >Nuevo NIP</label
-      >
-      <input
-        class="form__input"
-        type="text"
-        name="txtNIP"
-        id="txtNIP"
-        maxlength="4"
-        pattern="\d*"
-        placeholder="Ingresa tu nuevo NIP"
-        required
-      />
-    </div>
-    <div class="form__buttons">
-      <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
-      <button type="submit" class="button">Confirmar</button>
-    </div>
-  </form>
+    <form class="form">
+        <div class="form__field">
+            <label class="form__label" for="txtNIP"
+            >Nuevo NIP</label
+            >
+            <input
+                    class="form__input"
+                    type="text"
+                    name="txtNIP"
+                    id="txtNIP"
+                    maxlength="4"
+                    pattern="\d*"
+                    placeholder="Ingresa tu nuevo NIP"
+                    required
+            />
+        </div>
+        <div class="form__buttons">
+            <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
+            <button type="submit" class="button">Confirmar</button>
+        </div>
+    </form>
 {% endblock content %}
