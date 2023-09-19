@@ -209,3 +209,47 @@ def realizar_deposito(request):
             })
     else:
         return render(request, "cajero_web/realizar-deposito.html")
+
+
+def realizar_transferencia(request, cuenta_id):
+    if request.POST:
+        id_destino = request.POST["txtCuenta"]
+        monto = float(request.POST["txtMonto"])
+        cuenta_origen = get_object_or_404(Cuenta, pk=cuenta_id)
+
+        try:
+            cuenta_destino = Cuenta.objects.get(numero_cuenta=id_destino)
+            if cuenta_destino.id_cuenta == cuenta_origen.id_cuenta:
+                raise Exception("No te puedes transferir a ti mismo. Prueba con un depósito")
+            if cuenta_origen.monto >= monto:
+                fecha_hora = datetime.now()
+                operacion = Operacion(
+                    fecha=str(fecha_hora.date()),
+                    hora=str(fecha_hora.time())[:8],
+                    monto=request.POST["txtMonto"],
+                    id_origen=cuenta_origen,
+                    id_destino=cuenta_destino,
+                    id_tipo_operacion=TipoOperacion.objects.get(id_tipo=1)
+                )
+                cuenta_origen.monto -= monto
+                cuenta_destino.monto += monto
+                cuenta_origen.save()
+                cuenta_destino.save()
+                operacion.save()
+                print(Operacion.objects.all())
+                return redirect("operacion-exitosa", operacion_id=operacion.id_operacion)
+            else:
+                raise Exception("No tienes saldo suficiente.")
+        except ObjectDoesNotExist:
+            return render(request, "cajero_web/realizar-transferencia.html", {
+                "error": "El número de cuenta no es válido"
+            })
+        except Exception as ex:
+            return render(request, "cajero_web/realizar-transferencia.html", {
+                "error": str(ex)
+            })
+    else:
+        return render(request, "cajero_web/realizar-transferencia.html", {
+            "cuenta": cuenta_id
+        })
+

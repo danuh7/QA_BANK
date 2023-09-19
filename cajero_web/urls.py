@@ -10,5 +10,6 @@ urlpatterns = [
     path('operacion-exitosa/<int:operacion_id>', views.operacion_exitosa, name='operacion-exitosa'),
     path('consultar-saldo/<int:cuenta_id>/', views.consultar_saldo, name="consultar-saldo"),
     path('retirar-saldo/<int:cuenta_id>/', views.retirar_saldo, name="retirar-saldo"),
+    path('realizar-transferencia/<int:cuenta_id>', views.realizar_transferencia, name="realizar-transferencia"),
     path('realizar-deposito/', views.realizar_deposito, name="realizar-deposito")
 ]

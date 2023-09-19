@@ -1,0 +1,47 @@
+{% extends "cajero_web/base.html" %}
+
+{% block title %}Realizar transferencia{% endblock title %}
+
+{% block header %}
+    <h1>Realiza tus <span class="text-bold">transferencias</span></h1>
+{% endblock header %}
+
+{% block menuvariant %}main-content--no-menu container{% endblock menuvariant %}
+
+{% block content %}
+    <form class="form" method="post">
+        {% csrf_token %}
+        {% if error %}<p class="error-message">{{ error }}</p>{% endif %}
+        <div class="form__field">
+            <label class="form__label" for="txtCuenta">
+                Numero de cuenta o CLABE Interbancaria
+            </label>
+            <input
+                    class="form__input"
+                    type="text"
+                    name="txtCuenta"
+                    id="txtCuenta"
+                    maxlength="16"
+                    pattern="\d*"
+                    placeholder="Ingresa número de cuenta o CLABE Interbancaria a transferir"
+                    required
+            />
+        </div>
+        <div class="form__field">
+            <label class="form__label" for="txtMonto">Monto</label>
+            <input
+                    class="form__input"
+                    type="text"
+                    name="txtMonto"
+                    id="txtMonto"
+                    pattern="\d*.\d*"
+                    placeholder="Ingresa monto a transferir"
+                    required
+            />
+        </div>
+        <div class="form__buttons">
+            <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
+            <button type="submit" class="button">Confirmar</button>
+        </div>
+    </form>
+{% endblock %}
