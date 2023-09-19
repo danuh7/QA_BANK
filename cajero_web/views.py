@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime
 from django.core.exceptions import ObjectDoesNotExist
-from .models import Operacion, Cuenta, TipoOperacion
+from .models import Operacion, Cuenta, TipoOperacion, FormaPago
 
 
 # Create your views here.
@@ -34,7 +34,7 @@ def actualizar_nip(request):
             operacion.save()
             return redirect('operacion-exitosa', operacion_id=operacion.id_operacion)
         except Exception as ex:
-            return render(request, "cajero_web/actualizar-nip.html",{
+            return render(request, "cajero_web/actualizar-nip.html", {
                 "error": str(ex)
             })
     else:
@@ -68,7 +68,44 @@ def validar_cuenta(request):
 
 
 def realizar_pago(request):
-    return render(request, "cajero_web/realizar-pago.html")
+    formas_pago = FormaPago.objects.all()
+    if request.POST:
+        try:
+            numero_referencia = request.POST["txtServicio"]
+            monto = float(request.POST["txtMonto"])
+            forma_pago = request.POST["sFormaPago"]
+            print(forma_pago)
+
+            if monto <= 0:
+                raise Exception("El monto a pagar no puede ser menor o igual a cero.")
+
+            destino = Cuenta.objects.get(numero_cuenta=numero_referencia)
+            fecha_hora = datetime.now()
+            operacion = Operacion(
+                fecha=str(fecha_hora.date()),
+                hora=str(fecha_hora.time())[:8],
+                monto=monto,
+                id_destino=destino,
+                id_forma=FormaPago.objects.get(nombre=forma_pago),
+                id_tipo_operacion=TipoOperacion.objects.get(id_tipo=6)
+            )
+            operacion.save()
+            return redirect('operacion-exitosa', operacion_id=operacion.id_operacion)
+
+        except ObjectDoesNotExist:
+            return render(request, "cajero_web/realizar-pago.html", {
+                "error": "El número de referencia no es válido",
+                "formas_pago": formas_pago
+            })
+        except Exception as ex:
+            return render(request, "cajero_web/realizar-pago.html", {
+                "error": str(ex),
+                "formas_pago": formas_pago
+            })
+    else:
+        return render(request, "cajero_web/realizar-pago.html", {
+            "formas_pago": formas_pago
+        })
 
 
 def operacion_exitosa(request, operacion_id):
@@ -137,3 +174,38 @@ def retirar_saldo(request, cuenta_id):
         return render(request, "cajero_web/retirar-saldo.html", {
             "cuenta": cuenta_id,
         })
+
+
+def realizar_deposito(request):
+    if request.POST:
+        numero_cuenta = request.POST["txtCuenta"]
+        monto = float(request.POST["txtMonto"])
+
+        try:
+            if monto <= 0:
+                raise Exception("El monto no puede ser menor o igual a cero")
+
+            cuenta = Cuenta.objects.get(numero_cuenta=numero_cuenta)
+            fecha_hora = datetime.now()
+            operacion = Operacion(
+                fecha=str(fecha_hora.date()),
+                hora=str(fecha_hora.time())[:8],
+                monto=request.POST["txtMonto"],
+                id_origen=cuenta,
+                id_tipo_operacion=TipoOperacion.objects.get(id_tipo=5)
+            )
+            cuenta.monto += monto
+            cuenta.save()
+            operacion.save()
+            print(Operacion.objects.all())
+            return redirect("operacion-exitosa", operacion_id=operacion.id_operacion)
+        except ObjectDoesNotExist:
+            return render(request, "cajero_web/realizar-deposito.html", {
+                "error": "El número de cuenta no es válido"
+            })
+        except Exception as ex:
+            return render(request, "cajero_web/realizar-deposito.html", {
+                "error": str(ex)
+            })
+    else:
+        return render(request, "cajero_web/realizar-deposito.html")

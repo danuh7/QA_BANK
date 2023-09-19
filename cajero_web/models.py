@@ -27,8 +27,8 @@ class Cliente(models.Model):
     id_cliente = models.SmallAutoField(primary_key=True)
     primer_nombre = models.CharField(max_length=15)
     segundo_nombre = models.CharField(max_length=15, blank=True)
-    apellido_paterno = models.CharField(max_length=15)
-    apellido_materno = models.CharField(max_length=15)
+    apellido_paterno = models.CharField(max_length=15, blank=True)
+    apellido_materno = models.CharField(max_length=15, blank=True)
 
     def __str__(self):
         return f"{self.apellido_paterno} {self.apellido_materno} {self.primer_nombre}"
@@ -94,7 +94,9 @@ class Operacion(models.Model):
         Cuenta,
         models.DO_NOTHING,
         db_column='id_origen',
-        related_name='operacion_id_origen_set'
+        related_name='operacion_id_origen_set',
+        blank=True,
+        null=True,
     )
 
     def realizar_operacion(self, nuevo_nip=''):

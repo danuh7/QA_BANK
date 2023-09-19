@@ -22,11 +22,13 @@
         </div>
     </div>
 
-    <form class="form" action="./operacion_exitosa.html">
+    <form class="form" method="post">
+        {% csrf_token %}
+        {% if error %}<p class="error-message">{{ error }}</p>{% endif %}
         <div class="form__field">
-            <label class="form__label" for="txtServicio"
-            >Numero de cuenta o teléfono</label
-            >
+            <label class="form__label" for="txtServicio">
+                Numero de referencia
+            </label>
             <input
                     class="form__input"
                     type="text"
@@ -34,7 +36,7 @@
                     id="txtServicio"
                     maxlength="16"
                     pattern="\d*"
-                    placeholder="Ingresa numero de cuenta o teléfono"
+                    placeholder="Ingresa numero de referencia"
                     required
             />
         </div>
@@ -50,8 +52,16 @@
                     required
             />
         </div>
+        <div class="form__field">
+            <label for="sFormaPago" class="form__label">Forma de pago</label>
+            <select class="form__input" name="sFormaPago" id="sFormaPago">
+                {% for forma_pago in formas_pago %}
+                	<option id="{{ forma_pago.id_forma }}" name="{{ forma_pago.id_forma }}">{{ forma_pago.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
         <div class="form__buttons">
-            <a href="../index.html" class="button button--cancel">Cancelar</a>
+            <a href="{% url "index" %}" class="button button--cancel">Cancelar</a>
             <button type="submit" class="button">Pagar</button>
         </div>
     </form>

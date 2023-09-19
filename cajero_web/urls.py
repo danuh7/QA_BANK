@@ -9,5 +9,6 @@ urlpatterns = [
     path('realizar-pago/', views.realizar_pago, name='realizar-pago'),
     path('operacion-exitosa/<int:operacion_id>', views.operacion_exitosa, name='operacion-exitosa'),
     path('consultar-saldo/<int:cuenta_id>/', views.consultar_saldo, name="consultar-saldo"),
-    path('retirar-saldo/<int:cuenta_id>/', views.retirar_saldo, name="retirar-saldo")
+    path('retirar-saldo/<int:cuenta_id>/', views.retirar_saldo, name="retirar-saldo"),
+    path('realizar-deposito/', views.realizar_deposito, name="realizar-deposito")
 ]

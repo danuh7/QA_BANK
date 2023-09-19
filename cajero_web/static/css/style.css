@@ -52,6 +52,7 @@ h1 {
 img {
   max-width: 100%;
   margin: 0 auto;
+  object-fit: cover;
 }
 
 /** Utilidades: Puedes agregmás conforme lo consideren adecuado **/
@@ -189,6 +190,7 @@ img {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 2rem;
 }
 
@@ -196,9 +198,11 @@ img {
   background-color: var(--text-200);
   border-radius: 1rem;
   max-width: 20rem;
-  display: grid;
-  padding: 2rem;
-  place-items: center;
+  height: 15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
   flex: 1;
 }
 
