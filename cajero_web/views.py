@@ -219,6 +219,8 @@ def realizar_transferencia(request, cuenta_id):
 
         try:
             cuenta_destino = Cuenta.objects.get(numero_cuenta=id_destino)
+            if monto <= 0:
+                raise Exception("El monto no debe ser menor o igual a cero.")
             if cuenta_destino.id_cuenta == cuenta_origen.id_cuenta:
                 raise Exception("No te puedes transferir a ti mismo. Prueba con un depósito")
             if cuenta_origen.monto >= monto:
