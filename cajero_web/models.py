@@ -27,6 +27,10 @@ class Cliente(models.Model):
     apellido_paterno = models.CharField(max_length=15)
     apellido_materno = models.CharField(max_length=15)
 
+    def __str__(self):
+        return f"{self.apellido_paterno} {self.apellido_materno} {self.primer_nombre}"
+    
+
     class Meta:
         managed = False
         db_table = 'cliente'
@@ -36,10 +40,14 @@ class Cuenta(models.Model):
     id_cuenta = models.SmallAutoField(primary_key=True)
     numero_cuenta = models.CharField(max_length=10)
     monto = models.FloatField()
-    fk_banco = models.SmallIntegerField(blank=True, null=True)
-    fk_tipo_cuenta = models.ForeignKey('TipoCuenta', models.DO_NOTHING, db_column='id_tipo_cuenta', blank=True, null=True)
-    fk_cliente = models.SmallIntegerField(blank=True, null=True)
+    id_banco = models.ForeignKey('Banco', models.DO_NOTHING, db_column='id_banco')
+    id_tipo_cuenta = models.ForeignKey('TipoCuenta', models.DO_NOTHING, db_column='id_tipo_cuenta')
+    id_cliente = models.ForeignKey('Cliente', models.DO_NOTHING, db_column='id_cliente')
     nip = models.CharField(db_column='NIP', max_length=4)  # Field name made lowercase.
+
+    def __str__(self):
+        return str(self.id_cliente)
+    
 
     class Meta:
         managed = False
@@ -49,6 +57,10 @@ class Cuenta(models.Model):
 class FormaPago(models.Model):
     id_forma = models.SmallAutoField(primary_key=True)
     nombre = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nombre
+    
 
     class Meta:
         managed = False
@@ -60,10 +72,10 @@ class Operacion(models.Model):
     fecha = models.DateField(blank=True, null=True)
     hora = models.TimeField(blank=True, null=True)
     monto = models.FloatField()
-    fk_tipo_operacion = models.ForeignKey('TipoOperacion', models.DO_NOTHING, db_column='id_tipo_operacion', blank=True, null=True)
-    fk_destino = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='id_destino', blank=True, null=True)
-    fk_forma = models.ForeignKey(FormaPago, models.DO_NOTHING, db_column='id_forma', blank=True, null=True)
-    fk_origen = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='id_origen', related_name='operacion_id_origen_set', blank=True, null=True)
+    id_tipo_operacion = models.ForeignKey('TipoOperacion', models.DO_NOTHING, db_column='id_tipo_operacion')
+    id_destino = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='id_destino')
+    id_forma = models.ForeignKey(FormaPago, models.DO_NOTHING, db_column='id_forma')
+    id_origen = models.ForeignKey(Cuenta, models.DO_NOTHING, db_column='id_origen', related_name='operacion_id_origen_set')
 
     class Meta:
         managed = False
@@ -74,6 +86,9 @@ class TipoCuenta(models.Model):
     id_tipo_cuenta = models.SmallAutoField(primary_key=True)
     nombre = models.CharField(max_length=20)
 
+    def __str__(self):
+        return self.nombre
+
     class Meta:
         managed = False
         db_table = 'tipo_cuenta'
@@ -82,6 +97,9 @@ class TipoCuenta(models.Model):
 class TipoOperacion(models.Model):
     id_tipo = models.SmallAutoField(primary_key=True)
     nombre = models.CharField(max_length=25)
+
+    def __str__(self):
+        return self.nombre
 
     class Meta:
         managed = False
